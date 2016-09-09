@@ -2342,7 +2342,10 @@ def read_options(cmdlineargs, environment):
         options.connect_timeout = DEFAULT_CONNECT_TIMEOUT_SECONDS
 
     try:
-        options.request_timeout = int(options.request_timeout)
+	if options.request_timeout.lower() == 'none':
+	    options.request_timeout = None
+        else:
+            options.request_timeout = int(options.request_timeout)
     except ValueError:
         parser.error('"%s" is not a valid request timeout.' % (options.request_timeout,))
         options.request_timeout = DEFAULT_REQUEST_TIMEOUT_SECONDS
